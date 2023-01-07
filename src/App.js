@@ -1,16 +1,20 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import ContactContext from "./Components/ContactContext";
 
 import ContactList from "./Components/ContactList";
 import Header from "./Components/Header";
 import MainContent from "./Components/MainContent";
 
+import ModalForm from "./Components/ModalForm";
+
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "DELETE":
 			return state.filter((obj) => obj.id !== action.obj.id);
-		// case "ADD":
-		// 	return 1;
+		case "ADD":
+			console.log(action.obj);
+
+			return [action.obj, ...state];
 		default:
 			return state;
 	}
@@ -40,14 +44,14 @@ const App = () => {
 			email: "khanman12345soor@gmail.com",
 		},
 	];
-
+	const [isModal, setIsModal] = useState(false);
 	const [contactList, dispatch] = useReducer(reducer, DUMMY_LIST);
 	const contactListObj = {
 		contactList: contactList,
-		addHandler: () => {
-			console.log("add handler runs");
+		addHandler: (obj) => {
 			useReducerObj.dispatch({
 				type: "ADD",
+				obj: obj,
 			});
 		},
 		deleteHandler: (obj) => {
@@ -56,12 +60,14 @@ const App = () => {
 				obj: obj,
 			});
 		},
+		modalHandler: (boolean) => setIsModal(boolean),
 	};
 	const useReducerObj = { contactListObj, dispatch };
 	return (
-		<div className="h-screen">
+		<div className="relative h-screen">
 			<ContactContext value={useReducerObj}>
-				<Header />
+				<Header modalHandler={setIsModal} />
+				{isModal && <ModalForm modalHandler={setIsModal} />}
 				<MainContent className="max-w-4xl pt-20 mx-auto my-0 ">
 					<ContactList className="h-full p-2 rounded-lg" />
 				</MainContent>
