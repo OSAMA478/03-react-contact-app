@@ -16,18 +16,31 @@ const ContactCard = (props) => {
 	const onDelete = (ContactObj) => {
 		return reducerObj.contactListObj.deleteHandler(ContactObj);
 	};
+	const onEdit = ({ id }) => {
+		console.log(`edit handler runs`);
+		console.log(id);
+		reducerObj.contactListObj.isEditHandler(true);
+
+		return reducerObj.contactListObj.editHandlerFindId(id);
+	};
 	return reducerObj.contactListObj.contactList.map((contact) => {
 		const firstName = contact.firstName;
 		const lastName = contact.lastName;
+		const email = contact.email;
+		const phNumber = contact.phNumber;
 		const phNumber_href = `tel:+${contact.phNumber}`;
 		const whatsApp_href = `https://wa.me/${contact.phNumber}`;
-		const email_href = `mailto:${contact.eMail}`;
+		const email_href = `mailto:${contact.email}`;
 		return (
 			<div key={contact.id} className={classes}>
 				<CgProfile className="w-8 h-8 sm:w-16 sm:h-16 sm:mx-2 " />
-				<p className="">
-					{firstName} {lastName}
-				</p>
+				<div>
+					<p className="flex flex-col ">
+						{firstName} {lastName}
+					</p>
+					<p className="">{email}</p>
+					<p className="">{phNumber}</p>
+				</div>
 				<div className="flex">
 					<a href={phNumber_href}>
 						<IoMdCall className="w-8 h-8 sm:mx-2 " />
@@ -41,7 +54,12 @@ const ContactCard = (props) => {
 					</a>
 				</div>
 				<div className="">
-					<FiEdit className="w-6 h-6 sm:my-2" />
+					<FiEdit
+						onClick={() => {
+							onEdit(contact);
+						}}
+						className="w-6 h-6 sm:my-2"
+					/>
 					<MdDelete
 						onClick={() => onDelete(contact)}
 						className="w-6 h-6 sm:my-2"

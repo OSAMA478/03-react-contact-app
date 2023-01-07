@@ -4,10 +4,10 @@ import Icon from "./Icon";
 
 import phoneBook from "../icons/phonebook.png";
 import { MdPersonAddAlt1 } from "react-icons/md";
-import { ContactCtx } from "./ContactContext";
+// import { ContactCtx } from "./ContactContext";
 
 const Header = (props) => {
-	const useReducerObj = useContext(ContactCtx);
+	// const useReducerObj = useContext(ContactCtx);
 	// const onAddHandler = () => {
 	// 	// console.log(useReducerObj.contactListObj.addHandler);
 	// 	useReducerObj.contactListObj.addHandler();

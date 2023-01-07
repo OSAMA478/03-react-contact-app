@@ -2,11 +2,12 @@ import React, { useReducer, useState } from "react";
 import ContactContext from "./Components/ContactContext";
 
 import ContactList from "./Components/ContactList";
+import EditForm from "./Components/EditForm";
 import Header from "./Components/Header";
 import MainContent from "./Components/MainContent";
 
 import ModalForm from "./Components/ModalForm";
-
+let idToEdit;
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "DELETE":
@@ -14,7 +15,17 @@ const reducer = (state, action) => {
 		case "ADD":
 			console.log(action.obj);
 
-			return [action.obj, ...state];
+			return [...state, action.obj];
+		case "EDIT":
+			console.log(idToEdit);
+			console.log(state);
+			console.log(action.id);
+			const index = state.findIndex((cur) => cur.id === action.obj.id);
+			console.log(index);
+			const newState = state.splice(index, 1, action.obj);
+			console.log(newState);
+
+			return state;
 		default:
 			return state;
 	}
@@ -45,7 +56,9 @@ const App = () => {
 		},
 	];
 	const [isModal, setIsModal] = useState(false);
+	const [isEdit, setIsEdit] = useState(false);
 	const [contactList, dispatch] = useReducer(reducer, DUMMY_LIST);
+
 	const contactListObj = {
 		contactList: contactList,
 		addHandler: (obj) => {
@@ -60,7 +73,18 @@ const App = () => {
 				obj: obj,
 			});
 		},
+		editHandler: (obj) => {
+			useReducerObj.dispatch({
+				type: "EDIT",
+				obj: { ...obj, id: idToEdit },
+			});
+		},
+		editHandlerFindId: (id) => {
+			console.log(id);
+			return (idToEdit = id);
+		},
 		modalHandler: (boolean) => setIsModal(boolean),
+		isEditHandler: (boolean) => setIsEdit(boolean),
 	};
 	const useReducerObj = { contactListObj, dispatch };
 	return (
@@ -68,6 +92,7 @@ const App = () => {
 			<ContactContext value={useReducerObj}>
 				<Header modalHandler={setIsModal} />
 				{isModal && <ModalForm modalHandler={setIsModal} />}
+				{isEdit && <EditForm />}
 				<MainContent className="max-w-4xl pt-20 mx-auto my-0 ">
 					<ContactList className="h-full p-2 rounded-lg" />
 				</MainContent>
