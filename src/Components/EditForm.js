@@ -6,6 +6,7 @@ import Input from "./Input";
 import { ContactCtx } from "./ContactContext";
 
 const EditForm = (props) => {
+	// const currentObj = props.currentObj;
 	const useReducerObj = useContext(ContactCtx);
 
 	const fNameRefE = useRef();
@@ -39,26 +40,33 @@ const EditForm = (props) => {
 					<Heading innerText="Add contact details to update" className="py-2" />
 					<div className="bg-slate-300 ">
 						<Input
+							// onChange={() => {
+							// 	console.log(fNameRefE.current.value);
+							// }}
+							// val={currentObj.firstName}
 							ref={fNameRefE}
 							for="fName"
 							label="First Name :"
 							className="p-2 "
 						/>
 						<Input
+							// val={currentObj.lastName}
 							ref={lNameRefE}
-							fro="lName"
+							for="lName"
 							label="Last Name :"
 							className="p-2"
 						/>
 						<Input
+							// val={currentObj.phNumber}
 							ref={phNumRefE}
-							fro="phNum"
+							for="phNum"
 							label="Phone Number :"
 							className="p-2"
 						/>
 						<Input
+							// val={currentObj.email}
 							ref={eMailRefE}
-							fro="eMail"
+							for="eMail"
 							label="E-mail address :"
 							className="p-2"
 						/>

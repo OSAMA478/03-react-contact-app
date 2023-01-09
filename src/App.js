@@ -8,6 +8,7 @@ import MainContent from "./Components/MainContent";
 
 import ModalForm from "./Components/ModalForm";
 let idToEdit;
+let currentObj;
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "DELETE":
@@ -79,9 +80,10 @@ const App = () => {
 				obj: { ...obj, id: idToEdit },
 			});
 		},
-		editHandlerFindId: (id) => {
-			console.log(id);
-			return (idToEdit = id);
+		editHandlerFindId: (obj) => {
+			console.log(obj.id);
+			currentObj = obj;
+			return (idToEdit = obj.id);
 		},
 		modalHandler: (boolean) => setIsModal(boolean),
 		isEditHandler: (boolean) => setIsEdit(boolean),
@@ -92,7 +94,7 @@ const App = () => {
 			<ContactContext value={useReducerObj}>
 				<Header modalHandler={setIsModal} />
 				{isModal && <ModalForm modalHandler={setIsModal} />}
-				{isEdit && <EditForm />}
+				{isEdit && <EditForm currentObj={currentObj} />}
 				<MainContent className="max-w-4xl pt-20 mx-auto my-0 ">
 					<ContactList className="h-full p-2 rounded-lg" />
 				</MainContent>

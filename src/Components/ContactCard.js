@@ -16,12 +16,12 @@ const ContactCard = (props) => {
 	const onDelete = (ContactObj) => {
 		return reducerObj.contactListObj.deleteHandler(ContactObj);
 	};
-	const onEdit = ({ id }) => {
+	const onEdit = (obj) => {
 		console.log(`edit handler runs`);
-		console.log(id);
+		console.log(obj);
 		reducerObj.contactListObj.isEditHandler(true);
 
-		return reducerObj.contactListObj.editHandlerFindId(id);
+		return reducerObj.contactListObj.editHandlerFindId(obj);
 	};
 	return reducerObj.contactListObj.contactList.map((contact) => {
 		const firstName = contact.firstName;
